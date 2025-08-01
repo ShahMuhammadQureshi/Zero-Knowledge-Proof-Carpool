@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to FAST-NU Carpooling</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('{{ url_for("static", filename="assets/image_1.png") }}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Changed height to min-height */
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed; /* Making the header fixed */
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+        main {
+            padding: 120px 20px 20px; /* Adjusted padding to accommodate the fixed header */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        section#register {
+            margin-top: 80px; /* Increased margin-top to move the section down */
+        }
+        section {
+            margin-bottom: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 300px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button.register {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .input-container {
+            position: relative;
+        }
+        .input-container img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            width: 20px;
+            height: auto;
+        }
+        .registration-page {
+            padding: 20px;
+            color: white;
+            text-align: center;
+            max-width: 500px;
+        }
+        header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        width: 100%;
+        position: fixed; /* Making the header fixed */
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        }
+
+        .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+
+        .header-content img {
+        margin-right: 10px; /* Adjust the margin as needed */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='assets/headerText_image.png') }}" alt="Image Description">
+            <h1>Register if you are a new user</h1>
+        </div>
+    </header>
+    
+    <main>
+        <section id="register">
+            <!-- Registration Form -->
+            <div class="container">
+                <h2>Registration</h2>
+                <form action="/register" method="post">
+                    <div class="input-container">
+                        <label for="FirstName">First Name:</label>
+                        <input type="text" id="FirstName" name="FirstName" placeholder="Enter your FirstName">
+                    </div>
+                    <div class="input-container">
+                        <label for="LastName">Last Name:</label>
+                        <input type="text" id="LastName" name="LastName" placeholder="Enter your LastName">
+                    </div>
+                    <div class="input-container">
+                        <label for="Email">Email:</label>
+                        <input type="email" id="Email" name="Email" placeholder="Enter your email">
+                    </div>
+                    <div class="input-container">
+                        <label for="Password">Password:</label>
+                        <input type="password" id="Password" name="Password" placeholder="Enter your password">
+                    </div>
+                    <div class="input-container">
+                        <label for="ConfirmPassword">Confirm Password:</label>
+                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="Re-Enter your password">
+                    </div>
+                    <div class="input-container">
+                        <label for="selected_role">Select Role:</label>
+                        <select id="selected_role" name="selected_role" required>
+                            <option value="Passenger">Passenger</option>
+                            <option value="Driver">Driver</option>
+                        </select>
+                    </div>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
+        </section>
+        <div class="registration-page" style="padding: 20px;">
+            <div class="introduction and instructions" style="color: white; padding-bottom: 20px;">
+                <h3>Introduction:</h3>
+                <p>Welcome to the Registration Page of our carpooling service! To access the full features of our platform and enjoy the benefits of carpooling, you need to create an account. Registration is quick, easy, and free!</p>
+                <h3>Instructions:</h3>
+                <p>To register, please fill out the form below with your personal information, including your first name, last name, email address, and password. You'll also need to select your role as either a passenger or a driver. Once you've completed the form, click the "Register" button to create your account. After registration, you'll be able to log in and start using our carpooling service right away.</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>© 2024 FAST-NU Carpooling</p>
+    </footer>
+
+</body>
+</html>

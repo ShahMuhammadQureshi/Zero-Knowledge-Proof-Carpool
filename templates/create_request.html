@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Page</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('{{ url_for("static", filename="assets/image_1.png") }}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed; /* Making the header fixed */
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+        main {
+            padding: 120px 20px 20px; /* Adjusted padding to accommodate the fixed header */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        section {
+            margin-bottom: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 300px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input,
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button.register {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .input-container {
+            position: relative;
+        }
+        .input-container img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            width: 20px;
+            height: auto;
+        }
+        .passenger-page {
+            padding: 20px;
+            color: white;
+            text-align: center;
+            max-width: 500px;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-content img {
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+        .driver-list {
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 300px;
+        }
+        .driver-list h3 {
+            margin-bottom: 20px;
+        }
+        .driver-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .driver-item button {
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .driver-item button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent the default form submission
+    
+                const formData = new FormData(form);
+                fetch("/create_request", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        displayDrivers(data.matching_drivers);
+                        displayDriverDetails(data.driver_details);
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            });
+        });
+    
+        function displayDrivers(drivers) {
+            const driverList = document.querySelector(".driver-list");
+            driverList.innerHTML = ""; // Clear the previous list
+    
+            if (drivers.length === 0) {
+                driverList.innerHTML = "<p>No matching drivers found.</p>";
+                return;
+            }
+    
+            drivers.forEach(driver => {
+                const driverItem = document.createElement("div");
+                driverItem.className = "driver-item";
+                driverItem.innerHTML = `
+                    <p><strong>Driver ID:</strong> ${driver[1]}</p>
+                    <p><strong>Source:</strong> ${driver[2]}</p>
+                    <p><strong>Destination:</strong> ${driver[3]}</p>
+                    <p><strong>Total Seats:</strong> ${driver[4]}</p>
+                    <p><strong>Booked Seats:</strong> ${driver[5]}</p>
+                    <p><strong>Departure Time:</strong> ${driver[6]}</p>
+                    <p><strong>Fare:</strong> ${driver[7]}</p>
+                    <form action="/select_driver" method="post">
+                        <input type="hidden" name="driver_id" value="${driver[1]}">
+                        <button type="submit">Select Driver</button>
+                    </form>
+                `;
+                driverList.appendChild(driverItem);
+            });
+        }
+    
+        function displayDriverDetails(driverDetails) {
+            // Create a div to display driver details
+            const driverDetailsDiv = document.createElement("div");
+            driverDetailsDiv.id = "driver-details";
+            driverDetailsDiv.innerHTML = `
+                <h2>Selected Driver Details</h2>
+                <p><strong>Driver ID:</strong> ${driverDetails.ID}</p>
+                <p><strong>User ID:</strong> ${driverDetails.User_ID}</p>
+                <p><strong>Source:</strong> ${driverDetails.source}</p>
+                <p><strong>Destination:</strong> ${driverDetails.destination}</p>
+                <p><strong>Total Seats:</strong> ${driverDetails.seats}</p>
+                <p><strong>Booked Seats:</strong> ${driverDetails.Booked_seats}</p>
+                <p><strong>Departure Time:</strong> ${driverDetails.departure_time}</p>
+                <p><strong>Fare:</strong> ${driverDetails.fare}</p>
+            `;
+    
+            // Append the div to the body
+            document.body.appendChild(driverDetailsDiv);
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <img src="{{ url_for('static', filename='assets/headerText_image.png') }}" alt="Image Description">
+        <h1>Passenger Page</h1>
+    </div>
+</header>
+<main>
+    <section>
+        <!-- Passenger Information Form -->
+        <form>
+            <div class="input-container">
+                <label for="user_id">User ID:</label>
+                <input type="text" id="user_id" name="user_id" placeholder="Enter passenger ID" required>
+            </div>
+            <div class="input-container">
+                <label for="source">Source:</label>
+                <input type="text" id="source" name="source" placeholder="Enter source" required>
+            </div>
+            <div class="input-container">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+    <div class="driver-list">
+        <h3>Matching Drivers</h3>
+        <!-- The list of matching drivers will be displayed here -->
+    </div>
+    <div class="passenger-page" style="padding: 20px;">
+        <div class="introduction" style="color: white; padding-bottom: 20px;">
+            <h3>Introduction:</h3>
+            <p>Welcome to the Passenger Page of our carpooling service! As a passenger, you have the opportunity to find rides offered by drivers heading in your direction. Whether you're commuting to work, running errands, or planning a weekend getaway, carpooling is a convenient and eco-friendly way to travel.</p>
+        </div>
+        <div class="instructions" style="color: white; padding-bottom: 20px;">
+            <h3>Instructions:</h3>
+            <p>To find a ride as a passenger, simply enter your starting point and destination in the form below. You can also specify any preferences you have, such as departure time and fare range. Once you submit your request, our system will match you with available drivers who are traveling along a similar route. Sit back, relax, and enjoy the ride!</p>
+        </div>
+    </div>
+</main>
+<footer>
+    <p>© 2024 FAST-NU Carpooling</p>
+</footer>
+</body>
+</html>

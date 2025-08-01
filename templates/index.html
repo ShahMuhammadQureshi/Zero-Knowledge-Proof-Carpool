@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAST-NU Carpooling</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('{{ url_for("static", filename="assets/image_1.png") }}'); /* Updated path */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+        main {
+            padding: 160px 20px 20px; /* Adjusted padding to accommodate the fixed header and create space for the login section */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        section#login {
+            margin-bottom: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 300px;
+            margin-top: 80px; /* Increased margin-top to move the login section further down */
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button.register {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .input-container {
+            position: relative;
+        }
+        .input-container img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            width: 20px;
+            height: auto;
+        }
+        .login-page {
+            padding: 20px;
+            color: white;
+            text-align: center;
+            max-width: 500px;
+        }
+        header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        width: 100%;
+        position: fixed; /* Making the header fixed */
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        }
+
+        .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+
+        .header-content img {
+        margin-right: 10px; /* Adjust the margin as needed */
+        }
+        header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        width: 100%;
+        position: fixed; /* Making the header fixed */
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        }
+
+        .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+
+        .header-content img {
+        margin-right: 10px; /* Adjust the margin as needed */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='assets/headerText_image.png') }}" alt="Image Description">
+            <h1>Welcome to FAST-NU Carpooling</h1>
+        </div>
+    </header>
+
+    <main>
+        <section id="login">
+            <h2>Login</h2>
+            <!-- Login Form -->
+            <form id="loginForm" action="/login" method="POST">
+                <div class="input-container">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                </div>
+                <div class="input-container">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                </div>
+                <div class="input-container">
+                    <label for="role">Select Role:</label>
+                    <select id="role" name="role">
+                        <option value="Passenger">Passenger</option>
+                        <option value="Driver">Driver</option>
+                    </select>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <form id="Registration" action="/register">
+                <button class="register">Register</button>
+            </form>
+        </section>
+        <div class="login-page">
+            <h3>Introduction:</h3>
+            <p>Welcome back to our carpooling service! Please log in to access your account and enjoy the benefits of carpooling.</p>
+        </div>
+        
+    </main>
+    
+    
+    <footer>      
+        <p>© 2024 FAST-NU Carpooling</p>
+    </footer>
+</body>
+</html>

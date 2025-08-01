@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Page</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('{{ url_for("static", filename="assets/image_1.png") }}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed; /* Making the header fixed */
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+        main {
+            padding: 120px 20px 20px; /* Adjusted padding to accommodate the fixed header */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+        }
+        section {
+            margin-bottom: 40px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 300px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input,
+        select {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .input-container {
+            position: relative;
+        }
+        .input-container img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            width: 20px;
+            height: auto;
+        }
+        .driver-page {
+            padding: 20px;
+            color: white;
+            text-align: center;
+            max-width: 500px;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed; /* Making the header fixed */
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-content img {
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <img src="{{ url_for('static', filename='assets/headerText_image.png') }}" alt="Image Description">
+        <h1>Driver Page</h1>
+    </div>
+</header>
+
+<main>
+    <section id="offerFormSection">
+        <!-- Driver Information Form -->
+        <form id="offerForm" action="/set_offer" method="post">
+            <div class="input-container">
+                <label for="user_id">User ID:</label>
+                <input type="text" id="user_id" name="user_id" placeholder="Enter driver ID" required>
+            </div>
+            <div class="input-container">
+                <label for="source">Source:</label>
+                <input type="text" id="source" name="source" placeholder="Enter source" required>
+            </div>
+            <div class="input-container">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+            </div>
+            <div class="input-container">
+                <label for="passengers_required">Passengers Required:</label>
+                <input type="number" id="seats" name="seats" placeholder="Enter number of passengers required" required>
+            </div>
+            <div class="input-container">
+                <label for="departure_time">Departure Time:</label>
+                <input type="time" id="departure_time" name="departure_time" required>
+            </div>
+            <div class="input-container">
+                <label for="fare">Fare:</label>
+                <input type="number" id="fare" name="fare" placeholder="Enter fare" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <!-- Response message section -->
+    <section id="responseSection" style="display: none;">
+        <h2>Offer Details</h2>
+        <div id="responseMessage"></div>
+    </section>
+
+    <div class="driver-page" style="padding: 20px;">
+        <div class="introduction and instructions" style="color: white; padding-bottom: 20px;">
+            <h3>Introduction:</h3>
+            <p>Welcome to the Driver Page of our carpooling service! As a driver, you play a crucial role in facilitating rides for passengers heading in the same direction as you. By providing details about your journey, such as your starting point, destination, the number of passengers you can accommodate, departure time, and fare, you can help passengers find a convenient and affordable ride.</p>
+
+            <h3>Instructions:</h3>
+            <p>To offer a ride as a driver, please fill out the form below with the required information. Once submitted, your ride details will be made available to passengers using our service. Make sure to provide accurate and complete information to ensure a smooth and hassle-free experience for both you and your passengers.</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>© 2024 FAST-NU Carpooling</p>
+</footer>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    // Function to handle form submission
+    $('#offerForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        // Serialize form data
+        var formData = $(this).serialize();
+
+        // Submit form data using AJAX
+        $.ajax({
+            type: 'POST',
+            url: '/set_offer',
+            data: formData,
+            success: function(response) {
+                // Hide form section and show response section
+                $('#offerFormSection').hide();
+                $('#responseSection').show();
+
+                // Function to load offer details
+                function loadOfferDetails() {
+                    // AJAX call to fetch offer details
+                    $.ajax({
+                        type: 'GET', // Assuming offer details are fetched via GET request
+                        url: '/get_offer_details',
+                        data: { user_id: response.offer_details[1] }, // Pass user_id parameter
+                        success: function(response) {
+                            var message = '<p>' + response.message + '</p>';
+                            if (response.status === 'success' && response.offer_details) {
+                                var offerDetails = '<p><strong>Offer Details:</strong></p>';
+                                offerDetails += '<ul>';
+                                offerDetails += '<li><strong>Offer ID:</strong> ' + response.offer_details[0] + '</li>';
+                                offerDetails += '<li><strong>User ID:</strong> ' + response.offer_details[1] + '</li>';
+                                offerDetails += '<li><strong>Source:</strong> ' + response.offer_details[2] + '</li>';
+                                offerDetails += '<li><strong>Destination:</strong> ' + response.offer_details[3] + '</li>';
+                                offerDetails += '<li><strong>Number of Seats Available:</strong> ' + response.offer_details[4] + '</li>';
+                                offerDetails += '<li><strong>Number of Seats Booked:</strong> ' + response.offer_details[5] + '</li>';
+                                offerDetails += '<li><strong>Departure Time:</strong> ' + response.offer_details[6] + '</li>';
+                                offerDetails += '<li><strong>Fare:</strong> ' + response.offer_details[7] + '</li>';
+                                offerDetails += '</ul>';
+                                message += offerDetails;
+                            }
+
+                            // Update the response section with the formatted message
+                            $('#responseMessage').html(message);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error fetching offer details:', error);
+                        }
+                    });
+                }
+
+                // Initial load of offer details
+                loadOfferDetails();
+
+                // Refresh offer details every 5 seconds
+                setInterval(loadOfferDetails, 5000);
+            },
+            error: function(xhr, status, error) {
+                // Display error message
+                $('#responseMessage').html('<p>Error: ' + xhr.responseText + '</p>');
+                $('#responseSection').show(); // Show response section even if there's an error
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>
